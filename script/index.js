@@ -5,9 +5,14 @@ function loadCategories() {
 }
 
 function displayCategories(categories) {
-    console.log(categories)
+    const categoryContainer = document.getElementById("category-container");
+    for(let category of categories){
+        const categoryDiv = document.createElement("div")
+        categoryDiv.innerHTML = `
+        <button class="btn text-base bg-zinc-300 hover:bg-[#FF1F3D] hover:text-white">${category.category}</button>
+        `
+        categoryContainer.appendChild(categoryDiv)
+    }
 }
 
 loadCategories();
-
-// -Load Categories & send to display function
