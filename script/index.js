@@ -1,3 +1,13 @@
+const showLoader = () => {
+  document.getElementById("loader").classList.remove("hidden");
+  document.getElementById("video-container").classList.add("hidden");
+}
+
+const hideLoader = () => {
+  document.getElementById("loader").classList.add("hidden");
+  document.getElementById("video-container").classList.remove("hidden");
+}
+
 function removeActiveClass() {
   const activeButtons = document.getElementsByClassName("active");
 
@@ -13,6 +23,7 @@ function loadCategories() {
 }
 
 function loadVideos(searchText = "") {
+  showLoader();
   fetch(`https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`)
     .then((response) => response.json())
     .then((data) => {
@@ -23,6 +34,7 @@ function loadVideos(searchText = "") {
 }
 
 const loadCategoriesVideos = (id) => {
+  showLoader();
   const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
 
   fetch(url)
@@ -84,6 +96,7 @@ const displayVideos = (videos) => {
       <h2 class="text-3xl font-bold py-5 leading-10">Oops!! Sorry, There is no <br> content here</h2>
     </div>
     `;
+    hideLoader();
     return;
   }
   videos.forEach((video) => {
@@ -134,6 +147,7 @@ const displayVideos = (videos) => {
 
     videoContainer.appendChild(videoCard);
   });
+  hideLoader();
 };
 
 document.getElementById("search-input").addEventListener(("keyup"), (e) => {
@@ -142,8 +156,3 @@ document.getElementById("search-input").addEventListener(("keyup"), (e) => {
 })
 
 loadCategories();
-
-// loadVideos()
-
-// added loading spinner
-// 9+10 - Modal + handle conditional data + search
