@@ -25,7 +25,7 @@
       }
 
       .active {
-        background-color: #FF1F3D;
+        background-color: #ff1f3d;
         color: aliceblue;
       }
     </style>
@@ -52,7 +52,13 @@
     </header>
     <nav id="category-container" class="flex py-8 justify-center gap-6">
       <div>
-        <button onclick="loadVideos()" class="btn bg-red-500 text-white text-base">All</button>
+        <button
+          id="btn-all"
+          onclick="loadVideos()"
+          class="btn bg-zinc-300 text-base"
+        >
+          All
+        </button>
       </div>
     </nav>
 
@@ -60,11 +66,30 @@
       id="video-container"
       class="w-11/12 mx-auto grid lg:grid-cols-4 gap-6"
     >
-    <div class="col-span-full flex flex-col items-center text-center py-32">
-      <img src="assets/Icon.png" alt="">
-      <h2 class="text-3xl font-bold py-5 leading-10">Oops!! Sorry, There is no <br> content here</h2>
-    </div>
+      <div class="col-span-full flex flex-col items-center text-center py-32">
+        <img src="assets/Icon.png" alt="" />
+        <h2 class="text-3xl font-bold py-5 leading-10">
+          Oops!! Sorry, There is no <br />
+          content here
+        </h2>
+      </div>
     </section>
+
+    <!-- Open the modal using ID.showModal() method -->
+    <!-- <button class="btn" onclick="video_details.showModal()">open modal</button> -->
+    <dialog id="video_details" class="modal">
+      <div class="modal-box">
+        <div id="details-container">
+
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 
     <script src="script/index.js"></script>
   </body>

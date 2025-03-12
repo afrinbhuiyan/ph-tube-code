@@ -1,3 +1,11 @@
+function removeActiveClass() {
+  const activeButtons = document.getElementsByClassName("active");
+
+  for (let btn of activeButtons) {
+    btn.classList.remove("active");
+  }
+}
+
 function loadCategories() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
     .then((res) => res.json())
@@ -7,7 +15,11 @@ function loadCategories() {
 function loadVideos() {
   fetch("https://openapi.programming-hero.com/api/phero-tube/videos")
     .then((response) => response.json())
-    .then((data) => displayVideos(data.videos));
+    .then((data) => {
+      removeActiveClass();
+      document.getElementById("btn-all").classList.add("active");
+      displayVideos(data.videos);
+    });
 }
 
 const loadCategoriesVideos = (id) => {
@@ -16,10 +28,38 @@ const loadCategoriesVideos = (id) => {
   fetch(url)
     .then((res) => res.json())
     .then((data) => {
-      const clickButton = document.getElementById(`btn-${id}`)
-      clickButton.classList.add("active")
+      removeActiveClass();
+      const clickButton = document.getElementById(`btn-${id}`);
+      clickButton.classList.add("active");
       displayVideos(data.category);
     });
+};
+
+const loadVideoDetails = (videoId) => {
+  const url = `https://openapi.programming-hero.com/api/phero-tube/video/${videoId}`;
+  fetch(url)
+    .then((res) => res.json())
+    .then((data) => displayVideoDetails(data.video));
+};
+
+const displayVideoDetails = (video) => {
+  console.log(video);
+  document.getElementById("video_details").showModal();
+  const detailsContainer = document.getElementById("details-container");
+
+  detailsContainer.innerHTML = `
+    <div class="card bg-base-100 image-full shadow-sm">
+  <figure>
+    <img
+      src=${video.thumbnail}
+      alt="Shoes" />
+  </figure>
+  <div class="card-body">
+    <h2 class="card-title">${video.title}</h2>
+    <p>A card component has a figure, a body part, and inside body there are title and actions parts</p>
+  </div>
+</div>
+  `;
 };
 
 function displayCategories(categories) {
@@ -47,7 +87,7 @@ const displayVideos = (videos) => {
     return;
   }
   videos.forEach((video) => {
-    console.log(video);
+    // console.log(video);
 
     const videoCard = document.createElement("div");
 
@@ -60,7 +100,7 @@ const displayVideos = (videos) => {
             >3hrs 56 min ago</span
           >
         </figure>
-        <div class="flex gap-3 mt-6">
+        <div class="flex gap-3 my-6">
           <div class="">
             <div class="avatar">
               <div
@@ -85,6 +125,7 @@ const displayVideos = (videos) => {
             <p class="text-sm text-gray-400">${video.others.views} views</p>
           </div>
         </div>
+        <button onclick="loadVideoDetails('${video.video_id}')" class="btn btn-block">Show details</button>
       </div>
     `;
 
@@ -95,3 +136,7 @@ const displayVideos = (videos) => {
 loadCategories();
 
 // loadVideos()
+
+// added loading spinner
+// 9+10 - Modal + handle conditional data + search
+// 8- toggle active class
